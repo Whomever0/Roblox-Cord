@@ -1,13 +1,6 @@
 // I'm not amazing at JS and I don't know best practices, please don't judge! Do tell me how to improve this though.
 
-class Command {
-    constructor(name, description, args){
-        if (typeof args !== "object") return;
-        this.name = name;
-        this.description = description;
-        this.args = args;
-    }
-}
+const Commands = require("./Commands");
 
 function checkType(input, desiredType){
     if (desiredType === "string") return true;
@@ -18,12 +11,6 @@ function checkType(input, desiredType){
 function compareStrings(str1, str2){
     return (str1.toLowerCase() === str2.toLowerCase());
 }
-
-const Commands = [
-    new Command("print", "Prints a message to every Roblox server.", {
-        "...": "string"
-    })
-]
 
 class Parser {
 
@@ -53,13 +40,27 @@ class Parser {
 
         if (argList.length < command.args.length) return false;
 
+        var failedArg, userInput, expectedType; 
+
         var index = -1;
         var filtered = Object.keys(command.args).filter((a) => {
             index++;
-            return checkType(argList[index], command.args[a])
+            var isValid = checkType(argList[index], command.args[a]);
+            
+            if (!isValid && failedArg === undefined){
+                failedArg = a;
+                userInput = argList[index];
+                expectedType = command.args[a];
+            }
+
+            return isValid;
         })
 
-        return filtered.length === Object.keys(command.args).length;
+        if (failedArg === undefined){
+            return [filtered.length === Object.keys(command.args).length];
+        }else{
+            return [failedArg, userInput, expectedType];
+        }
     }
 
 }

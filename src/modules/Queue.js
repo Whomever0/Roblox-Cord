@@ -15,7 +15,7 @@ class Queue {
     }
 
     serializeQueue(){
-        return JSON.stringify(this.list.map(x => `${x.caller.tag}|${x.uid}|${x.name}|${x.args.join('>>``>>`')}`));
+        return JSON.stringify(this.list.map(x => `${x.game}|${x.caller.tag}|${x.uid}|${x.name}|${x.args.join('>>``>>`')}`));
     }
 
     handleReturn(parsed){
@@ -23,7 +23,7 @@ class Queue {
 
         var command = this.list.filter(x => x.uid === parsed.UID).shift();
 
-        if (command === undefined) return "Failed"; // invalid response.
+        if (command === undefined) return "Already handled";
 
         this.list.splice(this.list.indexOf(command));
 
@@ -52,10 +52,11 @@ class Queue {
 }
 
 class QueuedCommand {
-    constructor(name, args, caller, channel, message_id){
+    constructor(name, args, gameId, caller, channel, message_id){
         this.caller = caller;
         this.name = name;
         this.args = args;
+        this.game = gameId;
         this.channel = channel;
         this.message_id = message_id;
         this.uid = uuid();
