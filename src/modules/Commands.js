@@ -12,13 +12,16 @@ const Commands = [
         "...": "string"
     }),
     new Command("kill-player", "Kills a player in-game", {
-        "user-id": "number"
+        "player-identifier": "string"
     }),
     new Command("loadstring", "Executes arbitrary code in-game!", {
         "code": "string"
     }),
     new Command("van", "Don't question it.", {
-        "player-name": "string"
+        "player-identifier": "string"
+    }),
+    new Command('disco', "Dance party!", {
+        "player-identifier": "string"
     })
 ]
 
