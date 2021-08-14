@@ -33,6 +33,7 @@ client.on('messageCreate', (message) => {
 
     var gameId = "all";
     var whitelistedGame = true;
+    var isGameSpecific = false;
 
     if (cmdName.length > gameSpecificString.length) {
         if (cmdName.substr(cmdName.length - gameSpecificString.length) == gameSpecificString) {
@@ -43,10 +44,20 @@ client.on('messageCreate', (message) => {
             }).shift() !== undefined;
 
             args.shift();
+            isGameSpecific = true;
         }
     }
 
     if (cmdName.substr(0, 1) === Prefix){
+        if (cmdName.includes('```')){
+            content = cmdName.substr(0, cmdName.indexOf('```')-1) + " " + content.substr(cmdName.indexOf('```'));
+            args = cmd.getArguments(content);
+            cmdName = args[0]
+
+            args.shift();
+            if (isGameSpecific) args.shift();
+        }
+
         cmdName = cmdName.substr(1);
 
         if (!cmd.isCommand(cmdName)){
