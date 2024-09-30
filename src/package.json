@@ -18,7 +18,7 @@
   "homepage": "https://github.com/Whomever0/Roblox-Cord#readme",
   "dependencies": {
     "discord.js": "^13.1.0",
-    "express": "^4.17.1",
+    "express": "^4.21.0",
     "node": "16.6.1",
     "uuid": "^8.3.2"
   }
